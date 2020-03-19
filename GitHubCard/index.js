@@ -3,8 +3,6 @@
            https://api.github.com/users/<your name>
 */
 
-const axiosRequest = axios.get("")
-
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -48,6 +46,51 @@ const followersArray = [];
 
 */
 
+const createCard = (response) => {
+
+  const card = document.createElement("div");
+  const img = document.createElement("img");
+  const cardInfo = document.createElement("div");
+  const name = document.createElement("h3");
+  const username = document.createElement("p");
+  const location = document.createElement("p");
+  const profile = document.createElement("p");
+  const linkToGithub = document.createElement("a");
+  const followers = document.createElement("p");
+  const following = document.createElement("p");
+  const bio = document.createElement("p");
+
+  card.append(img, cardInfo);
+  cardInfo.append(name, username, location, profile, followers, following, bio);
+  profile.appendChild(linkToGithub);
+  
+  card.classList.add("card");
+  cardInfo.classList.add("card-info");
+  name.classList.add("name");
+  username.classList.add("username");
+
+  img.src = response.data.avatar_url;
+  name.textContent = response.data.name;
+  username.textContent = response.data.login;
+  location.textContent = `Location: ${response.data.location}`;
+  profile.textContent = "Profile: ";
+  linkToGithub.textContent = "Link to Github";
+  linkToGithub.href = response.data.url;
+
+
+  return card;
+}
+
+const cards = document.querySelector(".cards");
+
+axios.get("https://api.github.com/users/caleb-barger")
+  .then(response => {
+    cards.append(createCard(response));
+    
+
+  })
+
+
 /* List of LS Instructors Github username's: 
   tetondan
   dustinmyers
@@ -55,3 +98,5 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+
